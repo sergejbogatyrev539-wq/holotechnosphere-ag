@@ -49,3 +49,8 @@
 
 ---
 *Создано с верой в этичное будущее ИИ.*
+DB_USER=holo
+DB_PASS=holo_secret
+SECRET_KEY=supersecretkey_change_me
+ENVIRONMENT=development
+LOG_LEVEL=INFO
