@@ -118,3 +118,30 @@ volumes:
 networks:
   holo-net:
     driver: bridge
+backend/Dockerfile
+FROM python:3.11-slim
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y gcc libpq-dev && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY fastapi==0.104.1
+uvicorn[standard]==0.24.0
+websockets==12.0
+pydantic==2.5.0
+pydantic-settings==2.1.0
+sqlalchemy==2.0.23
+asyncpg==0.29.0
+redis==5.0.1
+python-multipart==0.0.6
+numpy==1.26.2
+aiofiles==23.2.1
+pytest==7.4.3
+pytest-asyncio==0.21.1
+
+EXPOSE 8000
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
