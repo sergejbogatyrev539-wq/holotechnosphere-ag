@@ -229,3 +229,30 @@ export default defineConfig({
     port: 5173
   }
 })
+frontend/index.html
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Holotechnosphere AGI</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+frontend/src/main.tsx
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+
+function App() {
+  return (
+    <div style={{padding: '20px', color: 'white', background: '#111', height: '100vh'}}>
+      <h1>🌐 Holotechnosphere AGI</h1>
+      <p>Система загружена. Автор: Сергей Богатырёв.</p>
+      <p>Статус: Ожидание подключения ядра...</p>
+    </div>
+  )
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />)
