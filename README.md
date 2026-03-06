@@ -67,3 +67,54 @@ numpy==1.26.2
 aiofiles==23.2.1
 pytest==7.4.3
 pytest-asyncio==0.21.1
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: ${DB_USER:-holo}
+      POSTGRES_PASSWORD: ${DB_PASS:-holo_secret}
+      POSTGRES_DB: holotechnosphere
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - holo-net
+
+  redis:
+    image: redis:7-alpine
+    networks:
+      - holo-net
+
+  backend:
+    build: ./backend
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - ./backend:/app
+    environment:
+      DATABASE_URL: postgresql://${DB_USER:-holo}:${DB_PASS:-holo_secret}@db:5432/holotechnosphere
+      REDIS_URL: redis://redis:6379
+      SECRET_KEY: ${SECRET_KEY:-supersecretkey}
+    depends_on:
+      - db
+      - redis
+    ports:
+      - "8000:8000"
+    networks:
+      - holo-net
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - holo-net
+
+volumes:
+  pgdata:
+
+networks:
+  holo-net:
+    driver: bridge
