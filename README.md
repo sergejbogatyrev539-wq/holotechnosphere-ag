@@ -256,3 +256,5 @@ function App() {
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(<App />)
+frontend/src/index.css
+body { margin: 0; font-family: sans-serif; background: #0f172a; color: #e2e8f0; }
